@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.x.dao.Mapper">
+    <resultMap id="account" type="Account">
+        <result column="money" property="pass"></result>
+    </resultMap>
+<!--    <select id="findAll" resultMap="account">-->
+<!--        select * from account;-->
+<!--    </select>-->
+    <select id="findAll2" parameterType="map" resultMap="account">
+        select * from account limit #{startindex},#{pagesize};
+    </select>
+    <insert id="add" parameterType="com.x.pojo.Account" >
+        insert into account (id,name,money) values (#{id},#{name},#{money});
+    </insert>
+    <update id="update" parameterType="com.x.pojo.Account" >
+        update account
+        set name =#{name},money=#{money}
+        where id=#{id};
+    </update>
+    <delete id="delete" parameterType="int">
+        delete from account where id=#{id};
+    </delete>
+    <select id="like" resultMap="account">
+        select *
+        from account where name like "%"#{value}"%";
+    </select>
+</mapper>

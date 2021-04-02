@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.x.dao.BlogMapper">
+<!--    提取公共sql-->
+    <sql id="title-author">
+        <if test="title != null ">
+            AND title like "%"#{title}"%"
+        </if>
+        <if test="author != null">
+            AND author like "%"#{author}"%"
+        </if>
+    </sql>
+    <insert id="insert" parameterType="blog">
+        insert into blog values(#{id},#{title},#{author},#{createTime},#{views});
+    </insert>
+
+    <select id="findQuery" resultType="blog" parameterType="map">
+            SELECT * FROM Blog
+            <where>
+                <include refid="title-author"></include>
+<!--            <if test="title != null ">-->
+<!--                AND title like "%"#{title}"%"-->
+<!--            </if>-->
+<!--            <if test="author != null">-->
+<!--                AND author like "%"#{author}"%"-->
+<!--            </if>-->
+            </where>
+    </select>
+
+    <select id="findQuery2" resultType="blog" parameterType="map">
+        SELECT * FROM Blog
+        <where>
+            <choose>
+                <when  test="title != null ">
+                    and title=#{title}
+                </when>
+                <otherwise>
+
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="findQuery3" resultType="blog" parameterType="map">
+        SELECT * FROM Blog
+        <where>
+            <foreach collection="ids" item="id" open="(" close=")" separator="or">
+                id=#{id}
+            </foreach>
+        </where>
+
+    </select>
+</mapper>

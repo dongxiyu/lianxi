@@ -1,0 +1,6 @@
+# Project exclude paths
+/mtbatis3/target/
+/mybatis/target/
+/mybatis2/target/
+/mybatis4/target/
+/out/
